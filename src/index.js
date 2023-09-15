@@ -3,6 +3,22 @@ import ReactDOM from 'react-dom/client';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
+//imported logger 
+import logger from 'redux-logger';
+
+
+// bringing redux-saga into our project
+import createSagaMiddleware from 'redux-saga';
+
+// This makes a middleware for us to use.
+const sagaMiddleware = createSagaMiddleware();
+
+// watcher sagas will watch for actions. If they match, they fire off other sagas.
+function* watcherSaga() {
+
+}
+
+
 import App from './App';
 
 // this startingPlantArray should eventually be removed
@@ -22,7 +38,10 @@ const plantList = (state = startingPlantArray, action) => {
 };
 
 const store = createStore(
-  combineReducers({ plantList }),
+  combineReducers({
+    plantList
+  }), // This adds middlewares. Logger should be last!
+  applyMiddleware(sagaMiddleware, logger),
 );
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -33,3 +52,6 @@ root.render(
     </Provider>
   </React.StrictMode>
 );
+
+// This allows the watcherSaga to start watching for actions
+sagaMiddleware.run(watcherSaga);
