@@ -4,7 +4,7 @@ import { applyMiddleware, createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import {takeLatest, put } from 'redux-saga/effects'; 
+import {takeLatest, put, take } from 'redux-saga/effects'; 
 import axios from 'axios';
 
 
@@ -47,11 +47,24 @@ function* fetchPlants() {
   }
 } 
 
+//Takes in an aciton with a payload and sends that payload to the server. 
+function* sendPlantToServer(action) { 
+  try{ 
+    yield axios.post('/api/plant', action.payload);
+    yield put({ type: 'FETCH_PLANTS' }); 
+  } catch (error) {
+    alert('Somthing went wrong'); 
+    console.log(`Error in addPlant: ${error}`);
+    throw error
+  }
+}
+
 //need to define an action type that will call the saga. 
 function* rootSaga() { 
     //Setup all sagas here (map action type to saga funtions)
     //FETCH_PLANTS is the action type. fetchPlants is the saga that gets called when we dispatch FETCH_PLANTS
     yield takeLatest('FETCH_PLANTS', fetchPlants)
+    yield takeLatest('SEND_PLANT_TO_SERVER', sendPlantToServer)
 }
 
 // This makes a middleware for us to use.
