@@ -2,40 +2,61 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-
-//imported logger 
 import logger from 'redux-logger';
-
-
-// bringing redux-saga into our project
 import createSagaMiddleware from 'redux-saga';
+import {takeLatest, put } from 'redux-saga/effects'; 
+import axios from 'axios';
 
-// This makes a middleware for us to use.
-const sagaMiddleware = createSagaMiddleware();
+
 
 // watcher sagas will watch for actions. If they match, they fire off other sagas.
 function* watcherSaga() {
 
 }
 
-
 import App from './App';
 
-// this startingPlantArray should eventually be removed
-const startingPlantArray = [
-  { id: 1, name: 'Rose' },
-  { id: 2, name: 'Tulip' },
-  { id: 3, name: 'Oak' }
-];
+//plants from server
+const startingPlantArray = [];
 
 const plantList = (state = startingPlantArray, action) => {
   switch (action.type) {
+    //ADD_PLANT is adding in a single new plant to the existing array, but uses a spread operator to keep original array and new plant. 
     case 'ADD_PLANT':
       return [ ...state, action.payload ]
+      // 'SET_PLANTS' will Replace all existing, 
+      case 'SET_PLANTS':
+        return action.payload; 
     default:
       return state;
   }
 };
+
+
+//this is our SAGA. in order for it to be inculded in the REDUX lifecyle it needs to get triggered. 
+function* fetchPlants() { 
+  try{
+    const response = yield axios.get('/api/plant'); 
+    //When we get the data back from /api/plant we will call SET_PLANTS, which will replace our plantList
+    const action = { type: 'SET_PLANTS', payload: response.data }; 
+    // put is the same as dispatch 
+    yield put(action)
+  } catch (error) { 
+    console.log(`Error in fetchPlants: ${error}`);
+    throw error
+  }
+} 
+
+//need to define an action type that will call the saga. 
+function* rootSaga() { 
+    //Setup all sagas here (map action type to saga funtions)
+    //FETCH_PLANTS is the action type. fetchPlants is the saga that gets called when we dispatch FETCH_PLANTS
+    yield takeLatest('FETCH_PLANTS', fetchPlants)
+}
+
+// This makes a middleware for us to use.
+const sagaMiddleware = createSagaMiddleware();
+
 
 const store = createStore(
   combineReducers({
@@ -43,6 +64,8 @@ const store = createStore(
   }), // This adds middlewares. Logger should be last!
   applyMiddleware(sagaMiddleware, logger),
 );
+
+sagaMiddleware.run(rootSaga); 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -27,7 +27,7 @@ Create a new database called `garden` and run the SQL in the `database.sql` file
 1. [x]Add the `redux-logger` middleware to the project for debugging.
     - npm install redux-saga//Has been installed. 
 
-1. Add `redux-sagas` to the project to make an API request. The route `http://localhost:5000/api/plant` returns an array of plants. Display that array on the `PlantList` component on load. 
+2. [x] Add `redux-sagas` to the project to make an API request. The route `http://localhost:5000/api/plant` returns an array of plants. Display that array on the `PlantList` component on load. 
     
 
 1. Add all of the plant fields to the form to allow adding a new plant to the database. The server `post` route to do this is available at `http://localhost:5000/api/plant`.

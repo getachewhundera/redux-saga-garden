@@ -3,6 +3,7 @@ import { useDispatch, useSelector} from 'react-redux';
 
 
 function PlantList() {
+    //dispatch hook 
     const dispatch = useDispatch();
 
     const reduxState = useSelector(store => store);
@@ -10,6 +11,7 @@ function PlantList() {
     useEffect(() => {
         console.log('component did mount');
         // dispatch an action to request the plantList from the API
+        dispatch({ type: 'FETCH_PLANTS' }); 
     }, []); 
 
     return (
