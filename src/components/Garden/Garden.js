@@ -1,16 +1,24 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import NewPlantForm from '../NewPlantForm/NewPlantForm';
 import PlantList from '../PlantList/PlantList';
+import './Garden.css'
+
+
+const StyledGarden = styled('div')({
+  minHeight: '100vh',
+  backgroundColor: '#8d6e63',
+  padding: '16px',
+});
 
 function Garden() {
   return(
-    <div>
-      <h2>This is the garden!</h2>
-      {/* Redux State isn't needed in the garden, it is just a parent component */}
-      {/* Thanks to redux, there is no need to pass along props! */}
+    <StyledGarden>
+      <h2 style={{textAlign: 'center', fontWeight: 'bold',  fontSize: '30px'}}>This is the garden!</h2>
       <NewPlantForm />
       <PlantList />
-    </div>
+    </StyledGarden>
+
   )
 }
 

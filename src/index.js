@@ -69,6 +69,7 @@ function* removePlant(action) {
     console.log(`Error in removePlant: ${error}`);
     throw error
 }
+}
 
 
 

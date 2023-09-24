@@ -1,22 +1,33 @@
 import React, {useState}from 'react';
 import { useDispatch } from 'react-redux';
+import { styled } from '@mui/material/styles';
 
+
+const StyledForm = styled('form')({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 'auto',
+    width: '50%', 
+  });
+
+  const StyledInput = styled('input')({
+    margin: '10px 0', 
+  });
+
+
+  
 const NewPlantForm = () => {
     const dispatch = useDispatch();
     
     //Initial state is an OBJECT, with keys id and name
     let [newPlant, setPlant] = useState({ name: '', kingdom: '', order: '', family: '', subfamily: '', genus: ''});
 
-    const handleNameChange = (event) => {
+    const handleChangeFor = (key, value) => {
         console.log('event happened');
         //Similar to in redux -- we dont want to get rid of the id field when we update name
-        setPlant({...newPlant, 
-            name: event.target.value, 
-            kingdom: event.target.value, 
-            clade: event.target.value, 
-            order: event.target.value, 
-            subfamily: event.target.value, 
-            genus: event.target.value })
+        setPlant({...newPlant, [key]: value})
     }
 
     const addNewPlant = event => {
@@ -27,22 +38,62 @@ const NewPlantForm = () => {
     }
     
     return (
+    
         <div>
-            <h3>This is the form</h3>
-            <pre>{JSON.stringify(newPlant)}</pre>
-            <form onSubmit={addNewPlant}>
-                <input type='text' placeholder='Name' value={newPlant.name} onChange={handleNameChange} />
-                <input type='text' placeholder='Kingdom' value={newPlant.kingdom} onChange={handleNameChange} />
-                <input type='text' placeholder='Order' value={newPlant.order} onChange={handleNameChange} />
-                <input type='text' placeholder='Family' value={newPlant.family} onChange={handleNameChange} />
-                <input type='text' placeholder='Subfamily' value={newPlant.subfamily} onChange={handleNameChange} />
-                <input type='text' placeholder='Genus' value={newPlant.genus} onChange={handleNameChange} />
+            <h3 style={{textAlign: 'center', fontWeight: 'bold',  fontSize: '25px'}}>This is the form</h3>
+            {/* <pre>{JSON.stringify(newPlant)}</pre> */}
+            
+            
+            <StyledForm onSubmit={addNewPlant} >
+                <StyledInput 
+                    type='text' 
+                    placeholder='Name' 
+                    value={newPlant.name} 
+                    onChange={(event) => handleChangeFor( 'name', event.target.value)}
+                />
 
+                <StyledInput 
+                    type='text' 
+                    placeholder='Kingdom' 
+                    value={newPlant.kingdom} 
+                    onChange={(event) => handleChangeFor( 'kingdom', event.target.value)}
+                />
 
-                <input type='submit' value='Add New Plant' />
+                <StyledInput
+                type='text' 
+                placeholder='Order' 
+                value={newPlant.order}
+                onChange={(event) => handleChangeFor( 'order', event.target.value)}
+                />
 
-            </form>
+                <StyledInput
+                type='text' 
+                placeholder='Family' 
+                value={newPlant.family} 
+                onChange={(event) => handleChangeFor( 'family', event.target.value)}
+                />
+
+                <StyledInput
+                type='text' 
+                placeholder='Subfamily' 
+                value={newPlant.subfamily} 
+                onChange={(event) => handleChangeFor( 'subfamily', event.target.value)}
+                />
+
+                <StyledInput
+                type='text' 
+                placeholder='Genus' 
+                value={newPlant.genus} 
+                onChange={(event) => handleChangeFor( 'genus', event.target.value)}
+                />
+
+                <StyledInput type='submit' value='Add New Plant' />
+
+            </StyledForm>
+        
+           
         </div>
+      
     );
 }
 
