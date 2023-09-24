@@ -22,8 +22,8 @@ const startingPlantArray = [];
 const plantList = (state = startingPlantArray, action) => {
   switch (action.type) {
     //ADD_PLANT is adding in a single new plant to the existing array, but uses a spread operator to keep original array and new plant. 
-    case 'ADD_PLANT':
-      return [ ...state, action.payload ]
+    // case 'ADD_PLANT':
+    //   return [ ...state, action.payload ]
       // 'SET_PLANTS' will Replace all existing, 
       case 'SET_PLANTS':
         return action.payload; 
@@ -59,12 +59,27 @@ function* sendPlantToServer(action) {
   }
 }
 
+
+function* removePlant(action) {
+  try{ 
+    yield axios.delete(`/api/plant/${action.payload}`);
+    yield put({ type: 'FETCH_PLANTS' }); 
+  } catch (error) {
+    alert('Somthing went wrong'); 
+    console.log(`Error in removePlant: ${error}`);
+    throw error
+}
+
+
+
 //need to define an action type that will call the saga. 
 function* rootSaga() { 
     //Setup all sagas here (map action type to saga funtions)
     //FETCH_PLANTS is the action type. fetchPlants is the saga that gets called when we dispatch FETCH_PLANTS
-    yield takeLatest('FETCH_PLANTS', fetchPlants)
-    yield takeLatest('SEND_PLANT_TO_SERVER', sendPlantToServer)
+    yield takeLatest('FETCH_PLANTS', fetchPlants);
+    yield takeLatest('SEND_PLANT_TO_SERVER', sendPlantToServer);
+    //REMOVE_PLANT maps our action type to our saga removePlant
+    yield takeLatest('REMOVE_PLANT', removePlant);
 }
 
 // This makes a middleware for us to use.

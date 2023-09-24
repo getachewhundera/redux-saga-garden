@@ -6,7 +6,7 @@ function PlantList() {
     //dispatch hook 
     const dispatch = useDispatch();
 
-    const reduxState = useSelector(store => store);
+    const plantList = useSelector(store => store.plantList);
 
     useEffect(() => {
         console.log('component did mount');
@@ -14,10 +14,25 @@ function PlantList() {
         dispatch({ type: 'FETCH_PLANTS' }); 
     }, []); 
 
+    const removePlant = (id) => {
+        dispatch({ type: 'REMOVE_PLANT', payload: id });  
+        
+    }
+
     return (
         <div>
             <h3>This is the plant list</h3>
-            <pre>{JSON.stringify(reduxState)}</pre>
+            {
+                plantList.map(plant => (
+                    <div key={plant.id}> 
+                        {plant.name}
+                        <button onClick={() => removePlant(plant.id)}>
+                            Remove
+                        </button>
+                    </div>
+                ))
+            }
+            {/* <pre>{JSON.stringify(reduxState)}</pre> */}
         </div>
     );
 }

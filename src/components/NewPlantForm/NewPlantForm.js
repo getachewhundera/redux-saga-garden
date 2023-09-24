@@ -5,19 +5,25 @@ const NewPlantForm = () => {
     const dispatch = useDispatch();
     
     //Initial state is an OBJECT, with keys id and name
-    let [newPlant, setPlant] = useState({id: 4, name: ''});
+    let [newPlant, setPlant] = useState({ name: '', kingdom: '', order: '', family: '', subfamily: '', genus: ''});
 
     const handleNameChange = (event) => {
         console.log('event happened');
         //Similar to in redux -- we dont want to get rid of the id field when we update name
-        setPlant({...newPlant, name: event.target.value})
+        setPlant({...newPlant, 
+            name: event.target.value, 
+            kingdom: event.target.value, 
+            clade: event.target.value, 
+            order: event.target.value, 
+            subfamily: event.target.value, 
+            genus: event.target.value })
     }
 
     const addNewPlant = event => {
         event.preventDefault();
         dispatch({ type: 'SEND_PLANT_TO_SERVER', payload: newPlant });
         //updates the next plant to have a new id
-        setPlant({id:newPlant.id + 1, name: ''});
+        setPlant({name: '', kingdom: '', order: '', family: '', subfamily: '', genus: ''});
     }
     
     return (
@@ -25,8 +31,16 @@ const NewPlantForm = () => {
             <h3>This is the form</h3>
             <pre>{JSON.stringify(newPlant)}</pre>
             <form onSubmit={addNewPlant}>
-                <input type='text' value={newPlant.name} onChange={handleNameChange} />
+                <input type='text' placeholder='Name' value={newPlant.name} onChange={handleNameChange} />
+                <input type='text' placeholder='Kingdom' value={newPlant.kingdom} onChange={handleNameChange} />
+                <input type='text' placeholder='Order' value={newPlant.order} onChange={handleNameChange} />
+                <input type='text' placeholder='Family' value={newPlant.family} onChange={handleNameChange} />
+                <input type='text' placeholder='Subfamily' value={newPlant.subfamily} onChange={handleNameChange} />
+                <input type='text' placeholder='Genus' value={newPlant.genus} onChange={handleNameChange} />
+
+
                 <input type='submit' value='Add New Plant' />
+
             </form>
         </div>
     );
@@ -34,3 +48,4 @@ const NewPlantForm = () => {
 
 
 export default NewPlantForm;
+
