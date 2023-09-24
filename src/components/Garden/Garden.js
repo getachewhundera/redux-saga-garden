@@ -12,9 +12,9 @@ const StyledGarden = styled('div')({
 });
 
 function Garden() {
-  return(
+  return (
     <StyledGarden>
-      <h2 style={{textAlign: 'center', fontWeight: 'bold',  fontSize: '30px'}}>This is the garden!</h2>
+      <h2 style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '30px' }}>This is the garden!</h2>
       <NewPlantForm />
       <PlantList />
     </StyledGarden>

@@ -1,4 +1,4 @@
-import React, {useState}from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { styled } from '@mui/material/styles';
 
@@ -9,91 +9,86 @@ const StyledForm = styled('form')({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 'auto',
-    width: '50%', 
-  });
+    width: '50%',
+});
 
-  const StyledInput = styled('input')({
-    margin: '10px 0', 
-  });
+const StyledInput = styled('input')({
+    margin: '10px 0',
+});
 
 
-  
+
 const NewPlantForm = () => {
     const dispatch = useDispatch();
-    
-    //Initial state is an OBJECT, with keys id and name
-    let [newPlant, setPlant] = useState({ name: '', kingdom: '', order: '', family: '', subfamily: '', genus: ''});
+
+    //Initial state
+    let [newPlant, setPlant] = useState({ name: '', kingdom: '', order: '', family: '', subfamily: '', genus: '' });
 
     const handleChangeFor = (key, value) => {
         console.log('event happened');
-        //Similar to in redux -- we dont want to get rid of the id field when we update name
-        setPlant({...newPlant, [key]: value})
+        setPlant({ ...newPlant, [key]: value })
     }
 
     const addNewPlant = event => {
         event.preventDefault();
         dispatch({ type: 'SEND_PLANT_TO_SERVER', payload: newPlant });
-        //updates the next plant to have a new id
-        setPlant({name: '', kingdom: '', order: '', family: '', subfamily: '', genus: ''});
+        setPlant({ name: '', kingdom: '', order: '', family: '', subfamily: '', genus: '' });
     }
-    
+
     return (
-    
+
         <div>
-            <h3 style={{textAlign: 'center', fontWeight: 'bold',  fontSize: '25px'}}>This is the form</h3>
-            {/* <pre>{JSON.stringify(newPlant)}</pre> */}
-            
-            
+            <h3 style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '25px' }}>This is the form</h3>
             <StyledForm onSubmit={addNewPlant} >
-                <StyledInput 
-                    type='text' 
-                    placeholder='Name' 
-                    value={newPlant.name} 
-                    onChange={(event) => handleChangeFor( 'name', event.target.value)}
-                />
-
-                <StyledInput 
-                    type='text' 
-                    placeholder='Kingdom' 
-                    value={newPlant.kingdom} 
-                    onChange={(event) => handleChangeFor( 'kingdom', event.target.value)}
+                <StyledInput
+                    type='text'
+                    placeholder='Name'
+                    value={newPlant.name}
+                    onChange={(event) => handleChangeFor('name', event.target.value)}
                 />
 
                 <StyledInput
-                type='text' 
-                placeholder='Order' 
-                value={newPlant.order}
-                onChange={(event) => handleChangeFor( 'order', event.target.value)}
+                    type='text'
+                    placeholder='Kingdom'
+                    value={newPlant.kingdom}
+                    onChange={(event) => handleChangeFor('kingdom', event.target.value)}
                 />
 
                 <StyledInput
-                type='text' 
-                placeholder='Family' 
-                value={newPlant.family} 
-                onChange={(event) => handleChangeFor( 'family', event.target.value)}
+                    type='text'
+                    placeholder='Order'
+                    value={newPlant.order}
+                    onChange={(event) => handleChangeFor('order', event.target.value)}
                 />
 
                 <StyledInput
-                type='text' 
-                placeholder='Subfamily' 
-                value={newPlant.subfamily} 
-                onChange={(event) => handleChangeFor( 'subfamily', event.target.value)}
+                    type='text'
+                    placeholder='Family'
+                    value={newPlant.family}
+                    onChange={(event) => handleChangeFor('family', event.target.value)}
                 />
 
                 <StyledInput
-                type='text' 
-                placeholder='Genus' 
-                value={newPlant.genus} 
-                onChange={(event) => handleChangeFor( 'genus', event.target.value)}
+                    type='text'
+                    placeholder='Subfamily'
+                    value={newPlant.subfamily}
+                    onChange={(event) => handleChangeFor('subfamily', event.target.value)}
+                />
+
+                <StyledInput
+                    type='text'
+                    placeholder='Genus'
+                    value={newPlant.genus}
+                    onChange={(event) => handleChangeFor('genus', event.target.value)}
                 />
 
                 <StyledInput type='submit' value='Add New Plant' />
 
             </StyledForm>
-        
-           
+
+
         </div>
-      
+
     );
 }
 

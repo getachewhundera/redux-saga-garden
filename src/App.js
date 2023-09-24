@@ -20,20 +20,16 @@ const Header = styled('header')({
 
 
 
-function App (){
+function App() {
 
- 
-
-  return(
+  return (
     <StyledDiv>
-      <Header> 
+      <Header>
         <h1>Welcome to your garden!</h1>
       </Header>
-      
-        <Garden />
-     </StyledDiv>
-    
+      <Garden />
+    </StyledDiv>
   );
-}; 
+};
 
 export default App;
